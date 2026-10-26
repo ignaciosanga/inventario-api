@@ -1,0 +1,8 @@
+flowchart TB
+    usuario["<b>Cliente / Aplicación</b><br/>[Persona o sistema externo]<br/>Consulta y registra productos,<br/>categorías y movimientos de inventario"]
+    sistema["<b>Sistema de Control de Inventario</b><br/>[Sistema de software]<br/>Expone una API REST para gestionar<br/>productos, categorías y stock"]
+    usuario -- "Usa vía HTTP/JSON<br/>(token JWT)" --> sistema
+    classDef persona fill:#08427b,stroke:#052e56,color:#ffffff
+    classDef sistemaNodo fill:#1168bd,stroke:#0b4884,color:#ffffff
+    class usuario persona
+    class sistema sistemaNodo
