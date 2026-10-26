@@ -1,0 +1,18 @@
+flowchart TB
+    usuario["<b>Cliente / Aplicación</b><br/>[Persona o sistema externo]"]
+    subgraph docker["Docker Compose · red bridge inventario-net"]
+        direction TB
+        gateway["<b>API Gateway</b><br/>[ASP.NET Core 8 + YARP]<br/>Único punto de entrada :5000<br/>CORS · Logging · JWT"]
+        servicio["<b>Microservicio Inventario</b><br/>[ASP.NET Core 8 Web API]<br/>CRUD · Repository · DTO · DI<br/>Swagger · Health"]
+        db[("<b>Base de datos</b><br/>[PostgreSQL 16]<br/>Categorias · Productos · Movimientos")]
+    end
+    usuario -- "HTTP/JSON :5000" --> gateway
+    gateway -- "Proxy inverso<br/>HTTP :8080" --> servicio
+    servicio -- "EF Core / Npgsql<br/>TCP :5432" --> db
+    classDef persona fill:#08427b,stroke:#052e56,color:#ffffff
+    classDef cont fill:#438dd5,stroke:#2e6295,color:#ffffff
+    classDef base fill:#2f6f9f,stroke:#1f4d70,color:#ffffff
+    class usuario persona
+    class gateway,servicio cont
+    class db base
+    style docker fill:#f5f8fc,stroke:#8aa4c4,stroke-dasharray: 5 5
