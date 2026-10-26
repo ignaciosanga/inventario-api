@@ -17,6 +17,12 @@ public class RequestLoggingMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
+        if (context.Request.Path.Equals("/health", StringComparison.OrdinalIgnoreCase))
+        {
+            await _next(context);
+            return;
+        }
+
         var correlationId = context.Request.Headers[CorrelationHeader].FirstOrDefault();
         if (string.IsNullOrWhiteSpace(correlationId))
         {
